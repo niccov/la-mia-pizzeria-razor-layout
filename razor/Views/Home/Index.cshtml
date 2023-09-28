@@ -1,8 +1,131 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+
+    Layout = null;
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    @* 1. Dichiarare una variabile valorizzandola con il nostro nome.
+    Dichiarare un'altra variabile valorizzandola con il nostro cognome.
+    Stampare il nostro nome e cognome all'interno di un tag h2. *@
+    <h1>Esercizio 1</h1>
+    @{
+        var nome = "Niccolò";
+        var cognome = "Venturi";
+    }
+
+    <h2>Io sono @nome @cognome</h2>
+
+  @* 2. Creare una funzione che stampa la somma dei numeri che vanno da 1 a n (con n passato come parametro - n incluso)
+    Stampare dentro uno span il risultato. *@
+    <h1>Esercizio 2</h1>
+    @{
+        int StampaSomma(int n)
+        {
+            int somma = 0;
+            for (int i = 1; i <= n; i++)
+            {
+                somma += i;
+            }
+            return somma;
+        }
+    }
+
+    <span>Il risultato è: @StampaSomma(5)</span>
+
+    @* 3. Contare quante volte la lettera a è presente nalla frase "nel mezzo del cammin di nostra vita" e stampare questo valore in pagina *@
+    <h1>Esercizio 3</h1>
+    @{
+        int ContaLetteraInFrase(string frase, char lettera)
+        {
+            int conteggio = 0;
+
+            foreach (char carattere in frase)
+            {
+                if (carattere == lettera)
+                {
+                    conteggio++;
+                }
+            }
+
+            return conteggio;
+        }
+
+        string frase = "nel mezzo del cammin di nostra vita";
+        char letteraDaContare = 'a';
+        int conteggio = ContaLetteraInFrase(frase, letteraDaContare);
+
+    }
+
+    <p>Nella frase @frase ci sono @conteggio @letteraDaContare</p>
+
+    @* 4. Creare una List<int> di 20 numeri interi (generati random da 1 a 90, 1 e 90 inclusi) e mostrare in pagina solo i numeri compresi tra 20 e 70 *@
+    <h1>Esercizio 4</h1>
+    @{
+        List<int> numeriCasuali = GeneraNumeriCasuali(20, 1, 90);
+
+        List<int> GeneraNumeriCasuali(int quantita, int minimo, int massimo)
+        {
+            List<int> numeriCasuali = new List<int>();
+            Random random = new Random();
+
+            for (int i = 0; i < quantita; i++)
+            {
+                int numeroCasuale = random.Next(minimo, massimo + 1); 
+                numeriCasuali.Add(numeroCasuale);
+            }
+
+            return numeriCasuali;
+        }        
+    }
+
+    <p>I numeri sono: </p>
+    
+    @foreach (int numero in numeriCasuali)
+    {
+          if (numero >= 20 && numero <= 70)
+          {
+              <span>@numero, </span>  
+          }
+       
+    }
+    
+    @* 5. Stampare in pagina la data e l'ora attuale (usando la classe DateTime) con il formato anno-mese-giorno ore:minuti:secondi *@
+    <h1>Esercizio 5</h1>
+
+    @{
+        DateTime dataOraAttuale = DateTime.Now;
+        string formato = "yyyy-MM-dd HH:mm:ss"; 
+
+        string dataOraFormattate = dataOraAttuale.ToString(formato);
+    }
+
+    <p>Data e ora: @dataOraFormattate</p>
+
+    @* 6. Partendo dalla data di oggi (usando la classe DateTime) stampare in pagina
+    a. la data di 7 giorni fa
+    b. che giorno della settimana è oggi (il risultato dovrà essere il nome del giorno (Lunedì, Martedì, ...)
+    c. che giorno della settimana sarà nello stesso giorno e mese di oggi ma tra un anno (il risultato dovrà essere il nome del giorno (Lunedì, Martedì, ...) *@
+    <h1>Esercizio 6</h1>
+
+    @{
+        DateTime oggi = DateTime.Now;
+
+        // A
+        DateTime setteGiorniFa = oggi.AddDays(-7);
+
+        // B
+        string giornoSettimanaOggi = oggi.ToString("dddd"); 
+
+        // C
+        DateTime traUnAnno = oggi.AddYears(1);
+        string giornoSettimanaTraUnAnno = traUnAnno.ToString("dddd"); 
+    }
+
+    <p>Oggi è: @oggi</p>
+
+    <p>A. Sette giorni fa era: @setteGiorniFa</p>
+
+    <p>B. Oggi è: @giornoSettimanaOggi</p>
+
+    <p>C. Oggi ma tra un anno sarà: @giornoSettimanaTraUnAnno</p>
 </div>
